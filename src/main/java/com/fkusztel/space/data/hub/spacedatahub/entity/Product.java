@@ -2,15 +2,18 @@ package com.fkusztel.space.data.hub.spacedatahub.entity;
 
 import com.fkusztel.space.data.hub.spacedatahub.dto.FootprintDto;
 import lombok.*;
+import org.springframework.data.geo.Polygon;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Filip.Kusztelak
  */
-@Entity
+@Entity(name = "Product")
+@Table(name = "product")
 @Builder
 @Setter
 @Getter
@@ -20,21 +23,20 @@ import java.time.LocalDate;
 public class Product implements Serializable {
 
     @Id
+    @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "acquisition_date")
     private LocalDate acquisitionDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "name",
-            referencedColumnName = "name"
-    )
-    private Mission mission;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="mission_name")
+    private Mission byMission;
 
+    @ElementCollection
     @Column(name = "footprint")
-    private FootprintDto footprint;
+    private List<String> footprint;
 
     @Column(name = "price")
     private Double price;

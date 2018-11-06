@@ -3,13 +3,14 @@ package com.fkusztel.space.data.hub.spacedatahub.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * @author Filip.Kusztelak
  */
-@Entity
+@Entity(name = "Mission")
 @Table(name = "mission")
 @Builder
 @Setter
@@ -20,10 +21,12 @@ import java.time.LocalDate;
 public class Mission implements Serializable {
 
     @Id
+    @Column(name = "mission_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Size(max = 50)
+    @Column(name = "mission_name", unique = true)
     private String name;
 
     @Column(name = "image_type")
@@ -34,4 +37,7 @@ public class Mission implements Serializable {
 
     @Column(name = "end_date")
     private LocalDate endDate;
+
+    @OneToOne(mappedBy = "byMission", optional = false)
+    private Product product;
 }

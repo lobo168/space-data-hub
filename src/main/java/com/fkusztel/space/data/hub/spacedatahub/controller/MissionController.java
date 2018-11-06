@@ -23,18 +23,18 @@ public class MissionController {
     @PostMapping(path = "/create")
     public @ResponseBody
     String createMission(@RequestParam String missionName, @RequestParam String imageryType,
-                         @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+                         @RequestParam String startDate, @RequestParam String endDate) {
 
         if (missionService.checkImageType(imageryType)){
         //Create mission from given parameters and save it to database
         Mission mission = Mission.builder()
                 .name(missionName)
                 .imageType(imageryType)
-                .startDate(startDate)
-                .endDate(endDate)
+                .startDate(LocalDate.parse(startDate))
+                .endDate(LocalDate.parse(endDate))
                 .build();
 
-        log.info("createBooking: {}", mission.toString());
+        log.info("createMission: {}", mission.toString());
         missionService.saveMission(mission);
         return "Created " + mission.toString();
         }
@@ -57,15 +57,15 @@ public class MissionController {
     @PutMapping(path = "/update")
     public @ResponseBody
     String updateMission(@RequestParam String missionName, @RequestParam String imageryType,
-                         @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+                         @RequestParam String startDate, @RequestParam String endDate) {
 
         log.info("updateMission: {}" , missionName);
 
         //Find mission by name and update details
         Mission mission = missionService.findMissionByName(missionName).get();
         mission.setImageType(imageryType);
-        mission.setStartDate(startDate);
-        mission.setEndDate(endDate);
+        mission.setStartDate(LocalDate.parse(startDate));
+        mission.setEndDate(LocalDate.parse(endDate));
 
         missionService.saveMission(mission);
         return mission.toString() + " updated successfully";

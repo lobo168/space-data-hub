@@ -4,6 +4,7 @@ import com.fkusztel.space.data.hub.spacedatahub.entity.Product;
 import com.fkusztel.space.data.hub.spacedatahub.entity.ProductRepository;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * @author Filip.Kusztelak
  */
+@Service
 public class ProductServiceImpl implements ProductService{
 
     @Autowired

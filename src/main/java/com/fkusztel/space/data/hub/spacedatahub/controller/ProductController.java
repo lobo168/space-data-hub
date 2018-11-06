@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author Filip.Kusztelak
@@ -24,12 +25,11 @@ public class ProductController {
 
     @PostMapping(path = "/create")
     public @ResponseBody
-    String createProduct(@RequestParam LocalDate acquisitionDate, @RequestParam Mission mission,
-                         @RequestParam FootprintDto footprint, @RequestParam Double price, String url) {
+    String createProduct(@RequestParam String acquisitionDate, @RequestParam String missionName,
+                         @RequestParam List<String> footprint, @RequestParam Double price, String url) {
 
         Product product = Product.builder()
-                .acquisitionDate(acquisitionDate)
-                .mission(mission)
+                .acquisitionDate(LocalDate.parse(acquisitionDate))
                 .footprint(footprint)
                 .price(price)
                 .url(url)
